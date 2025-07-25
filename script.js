@@ -1,7 +1,7 @@
 const display = document.querySelector(".calculator-display");
 
 function add(num1, num2) {
-  let sum = num1 + num2;
+  let sum = Number(num1) + Number(num2);
   return sum;
 }
 
@@ -21,33 +21,84 @@ function divide(num1, num2) {
 }
 
 function operator(op, number1, number2) {
+  let result;
   switch (op) {
     case "+":
-      add();
+      result = add(number1, number2);
       break;
 
     case "-":
-      subtract();
+      result = subtract(number1, number2);
       break;
     case "*":
-      multiply();
+      result = multiply(number1, number2);
       break;
     case "/":
-      divide();
+      result = divide(number1, number2);
       break;
   }
+
+  return result;
 }
 
-const para = document.createElement("p");
-para.textContent = "3.3.33.";
+let str = "";
 
-display.appendChild(para);
-
-const nodeList = document.querySelectorAll(".seven");
-console.log(nodeList);
-
+let userInput = [];
+const arrOfOperators = ["+", "-", "*", "/"];
+let numOfOperators = 0;
 function populateDisplay() {
-  let term1;
-  let operation;
-  let term2;
+  const digitsNodeList = document.querySelectorAll(".calc");
+
+  digitsNodeList.forEach((item) => {
+    item.addEventListener("click", () => {
+      const para = document.createElement("p");
+      const text = item.textContent;
+      para.textContent = text;
+      display.appendChild(para);
+      if (arrOfOperators.includes(text)) {
+        userInput.push(str);
+        userInput.push(text);
+        str = "";
+        calculate();
+      } else {
+        str += text;
+      }
+    });
+  });
 }
+
+function calculate() {
+  for (element of arrOfOperators) {
+    for (i = 0; i < userInput.length; i++) {
+      if (element === userInput[i]) {
+        numOfOperators++;
+      }
+    }
+  }
+
+  return numOfOperators;
+}
+
+// let result = "";
+function doCalculation(arr) {
+  let term1 = arr[0];
+  let operation = arr[1];
+  let term2 = arr[2];
+
+  let result = operator(operation, term1, term2);
+  let child = display.lastElementChild;
+
+  while (child) {
+    display.removeChild(child);
+    child = display.lastElementChild;
+  }
+
+  const paragraph = document.createElement("p");
+  paragraph.textContent = result;
+  display.appendChild(paragraph);
+}
+
+const equalSign = document.querySelector(".equal");
+equalSign.addEventListener("click", doCalculation(userInput));
+
+populateDisplay();
