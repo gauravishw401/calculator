@@ -102,3 +102,8 @@ const equalSign = document.querySelector(".equal");
 equalSign.addEventListener("click", doCalculation(userInput));
 
 populateDisplay();
+
+function createName(index) {
+  let display = "gaurav";
+  console.log(display);
+}
