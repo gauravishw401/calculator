@@ -17,7 +17,8 @@ function multiply(num1, num2) {
 
 function divide(num1, num2) {
   let dividing = num2 == 0 ? "ERROR" : num1 / num2;
-  return dividing;
+
+  return dividing.toFixed(5);
 }
 
 function operator(op, number1, number2) {
@@ -42,7 +43,6 @@ function operator(op, number1, number2) {
 }
 
 let str = "";
-
 let userInput = [];
 const arrOfOperators = ["+", "-", "*", "/"];
 let numOfOperators = 0;
@@ -50,7 +50,12 @@ let numOfOperators = 0;
 const digitsNodeList = document.querySelectorAll(".calc");
 function populateDisplay() {
   digitsNodeList.forEach((item) => {
-    item.addEventListener("click", () => {
+    item.addEventListener("click", (e) => {
+      if (isCalcFinished) {
+        let btnPressed = e.target.textContent;
+        afterCalculation(btnPressed);
+      }
+
       const para = document.createElement("p");
       const text = item.textContent;
       para.textContent = text;
@@ -62,7 +67,7 @@ function populateDisplay() {
         str = "";
         // console.log(userInput);
         numOfOperators++;
-        console.log(numOfOperators);
+        // console.log(numOfOperators);s
         if (numOfOperators >= 2) {
           calcTwoOperators();
         }
@@ -78,6 +83,22 @@ function displayText(input) {
   const para = document.createElement("p");
   para.textContent = input;
   display.appendChild(para);
+}
+
+function afterCalculation(button) {
+  let arrOfDigits = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+  if (arrOfOperators.includes(button)) {
+    console.log("btn pressed is an operator");
+    str = output;
+    isCalcFinished = false;
+  }
+
+  if (arrOfDigits.includes(button)) {
+    console.log("btn pressed is a digit");
+    let child = display.firstElementChild;
+    display.removeChild(child);
+    isCalcFinished = false;
+  }
 }
 
 function calcTwoOperators() {
@@ -116,49 +137,16 @@ function doCalculation(arr) {
   return value;
 }
 
+// let count = 0;
+let isCalcFinished = false;
+let output;
 const equalSign = document.querySelector(".equal");
 equalSign.addEventListener("click", () => {
   userInput.push(str);
-  let output = doCalculation(userInput);
+  output = doCalculation(userInput);
   clearUserData();
-  console.log(userInput);
-
-  let count = 0;
-
-  // digitsNodeList.forEach((item) => {
-  //   item.addEventListener("click", () => {
-  //     if (count < 1) {
-  //       let element = display.firstElementChild;
-  //       display.removeChild(element);
-  //       count++;
-  //       console.log(count);
-  //     }
-  //   });
-  // });
-
-  // let digits = document.querySelectorAll(".digits");
-  // let arrOfDigits = Array.from(digits);
-  // arrOfDigits.forEach((element) =>
-  //   element.addEventListener("click", () => {
-  //     if (count < 1) {
-  //       let child = display.firstElementChild;
-  //       display.removeChild(child);
-  //       count++;
-  //     }
-  //   })
-  // );
-
-  // let operators = document.querySelectorAll(".operator");
-  // let arrOfOperators = Array.from(operators);
-  // arrOfOperators.forEach((element) =>
-  //   element.addEventListener("click", () => {
-  //     if (count < 1) {
-  //       // userInput.push(output);
-  //       console.log(userInput);
-  //       count++;
-  //     }
-  //   })
-  // );
+  isCalcFinished = true;
+  console.log(isCalcFinished);
 });
 
 const clear = document.querySelector(".clear");
@@ -170,6 +158,8 @@ function clearDisplay() {
     display.removeChild(child);
     child = display.lastElementChild;
   }
+
+  isCalcFinished = false;
 }
 
 function clearUserData() {
@@ -181,6 +171,7 @@ function clearUserData() {
 clear.addEventListener("click", () => {
   clearDisplay();
   clearUserData();
+  isCalcFinished = false;
 });
 
 populateDisplay();
