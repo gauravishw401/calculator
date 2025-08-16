@@ -20,6 +20,8 @@ function divide(num1, num2) {
 
   if (Number.isInteger(dividing)) {
     return dividing;
+  } else if (dividing == "ERROR") {
+    return dividing;
   } else {
     let digitsAfterDecimals = countDecimalDigits(dividing);
     let answer = digitsAfterDecimals > 9 ? dividing.toFixed(9) : dividing;
