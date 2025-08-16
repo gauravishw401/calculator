@@ -18,7 +18,22 @@ function multiply(num1, num2) {
 function divide(num1, num2) {
   let dividing = num2 == 0 ? "ERROR" : num1 / num2;
 
-  return dividing;
+  if (Number.isInteger(dividing)) {
+    return dividing;
+  } else {
+    let digitsAfterDecimals = countDecimalDigits(dividing);
+    let answer = digitsAfterDecimals > 9 ? dividing.toFixed(9) : dividing;
+    return answer;
+  }
+}
+
+function countDecimalDigits(number) {
+  if (Number.isInteger(number)) {
+    return number;
+  } else {
+    let decimalPlaces = number.toString().split(".")[1].length;
+    return decimalPlaces;
+  }
 }
 
 function operator(op, number1, number2) {
@@ -71,7 +86,7 @@ function populateDisplay() {
         str = "";
         console.log(userInput);
         numOfOperators++;
-        // console.log(numOfOperators);s
+        // console.log(numOfOperators);
         if (numOfOperators >= 2) {
           calcTwoOperators();
         }
