@@ -86,11 +86,37 @@ function populateDisplay() {
         }
         userInput.push(text);
         str = "";
-        console.log(userInput);
+        // console.log(userInput);
         numOfOperators++;
         // console.log(numOfOperators);
         if (numOfOperators >= 2) {
-          calcTwoOperators();
+          firstOperatorIndex = userInput.findIndex((item) =>
+            arrOfOperators.includes(item)
+          );
+          lastOperatorIndex = userInput.findLastIndex((item) =>
+            arrOfOperators.includes(item)
+          );
+
+          if (lastOperatorIndex - firstOperatorIndex == 1) {
+            // console.log(userInput);
+            // let children = display.childNodes;
+            // let arr = Array.from(children);
+
+            // arr.map((item) => {
+            //   if (item.textContent == userInput[firstOperatorIndex]) {
+            //     indices = arr.indexOf(item);
+            //     console.log(indices);
+            //   }
+            // });
+            // // console.log(arr);
+            // let child = display.children[indices];
+            // display.removeChild(child);
+            // userInput.splice(firstOperatorIndex, 1);
+
+            consecutiveOperators();
+          } else {
+            calcTwoOperators();
+          }
         }
         // console.log(numOfOperators);
       } else {
@@ -122,6 +148,21 @@ function afterCalculation(button) {
   }
 }
 
+function consecutiveOperators() {
+  let children = display.childNodes;
+  let arr = Array.from(children);
+  arr.map((item) => {
+    if (item.textContent == userInput[firstOperatorIndex]) {
+      indices = arr.indexOf(item);
+      console.log(indices);
+    }
+  });
+
+  let child = display.children[indices];
+  display.removeChild(child);
+  userInput.splice(firstOperatorIndex, 1);
+}
+
 function calcTwoOperators() {
   let operation2 = userInput[3];
   let all = doCalculation(userInput);
@@ -130,6 +171,7 @@ function calcTwoOperators() {
   userInput.push(operation2);
 
   displayText(operation2);
+  numOfOperators--;
   console.log(userInput);
 }
 
@@ -186,6 +228,7 @@ populateDisplay();
 const del = document.querySelector(".backspace");
 del.addEventListener("click", () => {
   let child = display.lastElementChild;
+
   if (arrOfDigits.includes(child.textContent)) {
     let array = Array.from(str);
     let lastElementPopped = array.pop();
@@ -197,5 +240,6 @@ del.addEventListener("click", () => {
     numOfOperators--;
     console.log(userInput);
   }
+
   display.removeChild(child);
 });
