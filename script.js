@@ -81,7 +81,7 @@ function populateDisplay() {
       display.appendChild(para);
 
       if (arrOfOperators.includes(text)) {
-        if (str != "") {
+        if (str != "" || str == "0") {
           userInput.push(str);
         }
         userInput.push(text);
