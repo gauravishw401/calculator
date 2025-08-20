@@ -17,25 +17,12 @@ function multiply(num1, num2) {
 
 function divide(num1, num2) {
   let dividing = num2 == 0 ? "ERROR" : num1 / num2;
-
-  if (Number.isInteger(dividing)) {
-    return dividing;
-  } else if (dividing == "ERROR") {
-    return dividing;
-  } else {
-    let digitsAfterDecimals = countDecimalDigits(dividing);
-    let answer = digitsAfterDecimals > 9 ? dividing.toFixed(9) : dividing;
-    return answer;
-  }
+  return dividing;
 }
 
 function countDecimalDigits(number) {
-  if (Number.isInteger(number)) {
-    return number;
-  } else {
-    let decimalPlaces = number.toString().split(".")[1].length;
-    return decimalPlaces;
-  }
+  let decimalDigits = number.toString().split(".")[1].length;
+  return decimalDigits;
 }
 
 function operator(op, number1, number2) {
@@ -56,7 +43,13 @@ function operator(op, number1, number2) {
       break;
   }
 
-  return result;
+  if (Number.isInteger(result) || result == "ERROR") {
+    return result;
+  } else {
+    let decimalPlaces = countDecimalDigits(result);
+    result = decimalPlaces <= 10 ? result : result.toFixed(10);
+    return result;
+  }
 }
 
 let str = "";
@@ -98,21 +91,6 @@ function populateDisplay() {
           );
 
           if (lastOperatorIndex - firstOperatorIndex == 1) {
-            // console.log(userInput);
-            // let children = display.childNodes;
-            // let arr = Array.from(children);
-
-            // arr.map((item) => {
-            //   if (item.textContent == userInput[firstOperatorIndex]) {
-            //     indices = arr.indexOf(item);
-            //     console.log(indices);
-            //   }
-            // });
-            // // console.log(arr);
-            // let child = display.children[indices];
-            // display.removeChild(child);
-            // userInput.splice(firstOperatorIndex, 1);
-
             consecutiveOperators();
           } else {
             calcTwoOperators();
