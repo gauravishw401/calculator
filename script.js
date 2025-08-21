@@ -104,46 +104,6 @@ function populateDisplay() {
         }
       }
     });
-
-    // item.addEventListener("click", (e) => {
-    //   if (isCalcFinished) {
-    //     let btnPressed = e.target.textContent;
-    //     afterCalculation(btnPressed);
-    //   }
-
-    //   const para = document.createElement("p");
-    //   const text = item.textContent;
-    //   para.textContent = text;
-    //   display.appendChild(para);
-
-    //   if (arrOfOperators.includes(text)) {
-    //     if (str != "" || str == "0") {
-    //       userInput.push(str);
-    //     }
-    //     userInput.push(text);
-    //     str = "";
-    //     // console.log(userInput);
-    //     numOfOperators++;
-    //     // console.log(numOfOperators);
-    //     if (numOfOperators >= 2) {
-    //       firstOperatorIndex = userInput.findIndex((item) =>
-    //         arrOfOperators.includes(item)
-    //       );
-    //       lastOperatorIndex = userInput.findLastIndex((item) =>
-    //         arrOfOperators.includes(item)
-    //       );
-
-    //       if (lastOperatorIndex - firstOperatorIndex == 1) {
-    //         consecutiveOperators();
-    //       } else {
-    //         calcTwoOperators();
-    //       }
-    //     }
-    //     // console.log(numOfOperators);
-    //   } else {
-    //     str += text;
-    //   }
-    // });
   });
 }
 
