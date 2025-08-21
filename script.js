@@ -55,7 +55,7 @@ function operator(op, number1, number2) {
 let str = "";
 let userInput = [];
 const arrOfOperators = ["+", "-", "*", "/"];
-let arrOfDigits = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+let arrOfDigits = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
 
 let numOfOperators = 0;
 
@@ -68,39 +68,82 @@ function populateDisplay() {
         afterCalculation(btnPressed);
       }
 
-      const para = document.createElement("p");
-      const text = item.textContent;
-      para.textContent = text;
-      display.appendChild(para);
+      if (!item.disabled) {
+        const para = document.createElement("p");
+        const text = item.textContent;
+        para.textContent = text;
+        display.appendChild(para);
 
-      if (arrOfOperators.includes(text)) {
-        if (str != "" || str == "0") {
-          userInput.push(str);
-        }
-        userInput.push(text);
-        str = "";
-        // console.log(userInput);
-        numOfOperators++;
-        // console.log(numOfOperators);
-        if (numOfOperators >= 2) {
-          firstOperatorIndex = userInput.findIndex((item) =>
-            arrOfOperators.includes(item)
-          );
-          lastOperatorIndex = userInput.findLastIndex((item) =>
-            arrOfOperators.includes(item)
-          );
-
-          if (lastOperatorIndex - firstOperatorIndex == 1) {
-            consecutiveOperators();
-          } else {
-            calcTwoOperators();
+        if (arrOfOperators.includes(text)) {
+          if (str != "" || str == "0") {
+            userInput.push(str);
           }
+          userInput.push(text);
+          str = "";
+          // console.log(userInput);
+          numOfOperators++;
+          decimalBtn.disabled = false;
+          // console.log(numOfOperators);
+          if (numOfOperators >= 2) {
+            firstOperatorIndex = userInput.findIndex((item) =>
+              arrOfOperators.includes(item)
+            );
+            lastOperatorIndex = userInput.findLastIndex((item) =>
+              arrOfOperators.includes(item)
+            );
+
+            if (lastOperatorIndex - firstOperatorIndex == 1) {
+              consecutiveOperators();
+            } else {
+              calcTwoOperators();
+            }
+          }
+          // console.log(numOfOperators);
+        } else {
+          str += text;
         }
-        // console.log(numOfOperators);
-      } else {
-        str += text;
       }
     });
+
+    // item.addEventListener("click", (e) => {
+    //   if (isCalcFinished) {
+    //     let btnPressed = e.target.textContent;
+    //     afterCalculation(btnPressed);
+    //   }
+
+    //   const para = document.createElement("p");
+    //   const text = item.textContent;
+    //   para.textContent = text;
+    //   display.appendChild(para);
+
+    //   if (arrOfOperators.includes(text)) {
+    //     if (str != "" || str == "0") {
+    //       userInput.push(str);
+    //     }
+    //     userInput.push(text);
+    //     str = "";
+    //     // console.log(userInput);
+    //     numOfOperators++;
+    //     // console.log(numOfOperators);
+    //     if (numOfOperators >= 2) {
+    //       firstOperatorIndex = userInput.findIndex((item) =>
+    //         arrOfOperators.includes(item)
+    //       );
+    //       lastOperatorIndex = userInput.findLastIndex((item) =>
+    //         arrOfOperators.includes(item)
+    //       );
+
+    //       if (lastOperatorIndex - firstOperatorIndex == 1) {
+    //         consecutiveOperators();
+    //       } else {
+    //         calcTwoOperators();
+    //       }
+    //     }
+    //     // console.log(numOfOperators);
+    //   } else {
+    //     str += text;
+    //   }
+    // });
   });
 }
 
@@ -174,6 +217,7 @@ equalSign.addEventListener("click", () => {
   output = doCalculation(userInput);
   clearUserData();
   isCalcFinished = true;
+  decimalBtn.disabled = false;
 });
 
 const clear = document.querySelector(".clear");
@@ -220,4 +264,9 @@ del.addEventListener("click", () => {
   }
 
   display.removeChild(child);
+});
+
+const decimalBtn = document.querySelector(".decimal");
+decimalBtn.addEventListener("click", () => {
+  decimalBtn.disabled = true;
 });
