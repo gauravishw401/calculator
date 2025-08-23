@@ -103,6 +103,8 @@ function populateDisplay() {
           str += text;
         }
       }
+
+      disableEqual(userInput);
     });
   });
 }
@@ -172,12 +174,13 @@ let output;
 const equalSign = document.querySelector(".equal");
 
 equalSign.addEventListener("click", () => {
-  userInput.push(str);
-
-  output = doCalculation(userInput);
-  clearUserData();
-  isCalcFinished = true;
-  decimalBtn.disabled = false;
+  if (!equalSign.disabled) {
+    userInput.push(str);
+    output = doCalculation(userInput);
+    clearUserData();
+    isCalcFinished = true;
+    decimalBtn.disabled = false;
+  }
 });
 
 const clear = document.querySelector(".clear");
@@ -230,3 +233,15 @@ const decimalBtn = document.querySelector(".decimal");
 decimalBtn.addEventListener("click", () => {
   decimalBtn.disabled = true;
 });
+
+function disableEqual(arr) {
+  let firstNum = arr[0];
+  let operate = arr[1];
+  let secondNum = str;
+
+  if (!(firstNum && operate && secondNum !== "")) {
+    equalSign.disabled = true;
+  } else {
+    equalSign.disabled = false;
+  }
+}
